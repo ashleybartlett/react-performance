@@ -56,7 +56,18 @@ function ListItem({
     />
   )
 }
-ListItem = React.memo(ListItem)
+function areListItemPropsEqual(prevProps, nextProps) {
+  if (prevProps !== nextProps) {
+    if(prevProps.highlightedIndex !== nextProps.highlightedIndex) {
+      // highlighted index change short circuit
+      if(prevProps.highlightedIndex === nextProps.index || nextProps.highlightedIndex === nextProps.index) return false;
+      return true;
+    }
+    return false 
+  }
+  return true;
+}
+ListItem = React.memo(ListItem, areListItemPropsEqual)
 
 function App() {
   const forceRerender = useForceRerender()
